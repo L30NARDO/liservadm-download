@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LiServAdm — Download</title>
+<meta name="description" content="Baixe a versão mais recente do LiServAdm para Windows, macOS e Linux.">
+<link rel="icon" type="image/png" href="icon.png">
+<!--
+  Site de atualizações do LiServAdm, publicado pelo workflow "Instaladores" no GitHub Pages do repositório
+  público de downloads. Ficam aqui esta página, files.json e os latest*.yml; os instaladores ficam nas
+  Releases desse repositório (os endereços completos estão nos latest*.yml e no files.json).
+  O app instalado consulta os latest*.yml deste endereço; esta página só lista os downloads.
+-->
+<style>
+:root{--bg:#f3f6fb;--panel:#fff;--panel2:#f6f8fc;--text:#172033;--muted:#69778c;--border:#dfe5ee;--accent:#4f5fdb;--accent-soft:#edf0ff}
+@media (prefers-color-scheme:dark){:root{--bg:#0b1018;--panel:#111a27;--panel2:#162131;--text:#e7edf5;--muted:#8c9bb0;--border:#263347;--accent:#6d7cff;--accent-soft:#20294a}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:860px;margin:0 auto;padding:56px 16px 40px}
+header{display:flex;align-items:center;gap:16px;margin-bottom:28px}
+header img{width:64px;height:64px}
+h1{margin:0;font-size:32px;letter-spacing:-.8px}
+h1 span{color:var(--accent)}
+.sub{margin:4px 0 0;color:var(--muted)}
+.version{display:inline-flex;align-items:center;gap:8px;margin:0 0 22px;padding:6px 12px;border:1px solid var(--border);border-radius:999px;background:var(--panel);color:var(--muted);font-size:13px}
+.version b{color:var(--text)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.card{border:1px solid var(--border);border-radius:14px;background:var(--panel);padding:18px;display:flex;flex-direction:column;gap:10px}
+.card.recommended{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.card h2{margin:0;font-size:17px;display:flex;align-items:center;gap:8px}
+.card .tag{font-size:11px;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:999px}
+.card ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.card a{display:flex;justify-content:space-between;gap:10px;padding:9px 12px;border-radius:9px;background:var(--panel2);border:1px solid var(--border);color:var(--text);text-decoration:none;font-size:13px;overflow-wrap:anywhere}
+.card a:hover{border-color:var(--accent)}
+.card a small{color:var(--muted);white-space:nowrap}
+.empty{color:var(--muted);font-size:13px;margin:0}
+.note{margin-top:28px;padding:14px 16px;border-radius:12px;background:var(--panel);border:1px solid var(--border);color:var(--muted);font-size:13px}
+.note b{color:var(--text)}
+footer{margin-top:28px;color:var(--muted);font-size:12px;text-align:center}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <img src="icon.png" alt="" onerror="this.remove()">
+    <div><h1>Li<span>Serv</span>Adm</h1><p class="sub">Administração de servidores por SSH, Docker, Portainer e bancos de dados.</p></div>
+  </header>
+  <p class="version" id="version">Carregando a versão mais recente…</p>
+  <div class="grid" id="downloads"></div>
+  <div class="note"><b>Já tem o app instalado?</b> Ele avisa sozinho quando há uma versão nova e se atualiza pelo botão <b>Atualizar</b>. Esta página serve para a primeira instalação ou para baixar manualmente.</div>
+  <footer>© 2026 Lianna Atelier Criativo</footer>
+</main>
+<script>
+(function () {
+  var groups = [
+    { id: "win", title: "Windows", test: /\.(exe|appx)$/i, kinds: { exe: "Instalador (.exe)", appx: "Pacote da Store (.appx)" } },
+    { id: "mac", title: "macOS", test: /mac.*\.(dmg|zip)$|\.(dmg)$/i, kinds: { dmg: "Imagem de disco (.dmg)", zip: "Arquivo .zip" } },
+    { id: "linux", title: "Linux", test: /\.(AppImage|deb)$/i, kinds: { appimage: "AppImage", deb: "Pacote .deb" } }
+  ];
+  var ua = navigator.userAgent, mine = /Windows/i.test(ua) ? "win" : /Mac/i.test(ua) ? "mac" : /Linux|X11/i.test(ua) ? "linux" : "";
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function arch(name) { return /arm64|aarch64/i.test(name) ? "ARM64 (Apple Silicon / ARM)" : /x64|amd64|x86_64/i.test(name) ? "x64 (Intel/AMD)" : ""; }
+  function fromYml(text) {
+    var v = (text.match(/^version:\s*['"]?([^'"\s]+)/m) || [])[1], files = [], re = /^\s*-\s*url:\s*['"]?([^'"\s]+)/gm, m;
+    while ((m = re.exec(text))) files.push(m[1]);
+    return { version: v, files: files };
+  }
+  function get(url) { return fetch(url, { cache: "no-store" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); }); }
+  // files.json é gerado pelo workflow; sem ele, junta os arquivos listados nos latest*.yml.
+  get("files.json").then(JSON.parse).catch(function () {
+    return Promise.all(["latest.yml", "latest-mac.yml", "latest-linux.yml", "latest-linux-arm64.yml"].map(function (f) {
+      return get(f).then(fromYml).catch(function () { return { files: [] }; });
+    })).then(function (list) {
+      var files = [], version;
+      list.forEach(function (x) { version = version || x.version; x.files.forEach(function (f) { if (files.indexOf(f) < 0) files.push(f); }); });
+      return { version: version, files: files };
+    });
+  }).then(render, function () { render({ files: [] }); });
+
+  function render(data) {
+    // Cada item pode ser o nome do arquivo (relativo a esta página) ou {name, url}.
+    var files = (data.files || []).map(function (f) { return typeof f === "string" ? { name: f.split("/").pop(), url: f } : f; })
+      .filter(function (f) { return !/\.(yml|blockmap|json|html)$/i.test(f.name) && f.name !== "icon.png"; });
+    var vEl = document.getElementById("version");
+    vEl.textContent = "";
+    if (data.version) { vEl.append("Versão mais recente: "); vEl.append(el("b", "", data.version)); }
+    else vEl.textContent = files.length ? "Downloads disponíveis" : "Nenhuma versão publicada ainda.";
+    var box = document.getElementById("downloads");
+    groups.sort(function (a, b) { return (b.id === mine) - (a.id === mine); }).forEach(function (g) {
+      var mineFiles = files.filter(function (f) { return g.test.test(f.name); });
+      var card = el("section", "card" + (g.id === mine && mineFiles.length ? " recommended" : ""));
+      var h = el("h2", "", g.title); if (g.id === mine) h.append(el("span", "tag", "seu sistema")); card.append(h);
+      if (!mineFiles.length) card.append(el("p", "empty", "Sem instalador publicado para este sistema."));
+      else {
+        var ul = el("ul");
+        mineFiles.forEach(function (f) {
+          var ext = f.name.split(".").pop().toLowerCase(), a = el("a"); a.href = /^https?:/.test(f.url) ? f.url : encodeURI(f.url); a.download = "";
+          a.append(el("span", "", g.kinds[ext] || f.name)); a.append(el("small", "", arch(f.name)));
+          var li = el("li"); li.append(a); ul.append(li);
+        });
+        card.append(ul);
+      }
+      box.append(card);
+    });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+version: 0.1.3
+files:
+  - url: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.3/LiServAdm-0.1.3-win-x64.exe
+    sha512: YUphIbCLfIzToYsepcnmjdPnAYO6z904vIs+HdaAoTAIfXXA5/xp6hAjbyee+he4mrx5p3EYBbeV3qAydVEW/g==
+    size: 90350740
+path: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.3/LiServAdm-0.1.3-win-x64.exe
+sha512: YUphIbCLfIzToYsepcnmjdPnAYO6z904vIs+HdaAoTAIfXXA5/xp6hAjbyee+he4mrx5p3EYBbeV3qAydVEW/g==
+releaseDate: '2026-11-04T14:44:41.106Z'
