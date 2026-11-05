@@ -13,54 +13,363 @@
   O app instalado consulta os latest*.yml deste endereço; esta página só lista os downloads.
 -->
 <style>
-:root{--bg:#f3f6fb;--panel:#fff;--panel2:#f6f8fc;--text:#172033;--muted:#69778c;--border:#dfe5ee;--accent:#4f5fdb;--accent-soft:#edf0ff}
-@media (prefers-color-scheme:dark){:root{--bg:#0b1018;--panel:#111a27;--panel2:#162131;--text:#e7edf5;--muted:#8c9bb0;--border:#263347;--accent:#6d7cff;--accent-soft:#20294a}}
+:root{
+  --bg:#f3f6fb;--bg2:#e9eef7;--panel:#ffffff;--panel2:#f6f8fc;--text:#172033;--muted:#5f6d82;--border:#dfe5ee;
+  --accent:#4f5fdb;--accent2:#8b5cf6;--accent-soft:#edf0ff;--glow:rgba(79,95,219,.18);--nav:rgba(243,246,251,.78);
+  --shadow:0 10px 30px -12px rgba(23,32,51,.18)
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0b1018;--bg2:#0e1521;--panel:#111a27;--panel2:#162131;--text:#e7edf5;--muted:#8c9bb0;--border:#263347;
+  --accent:#6d7cff;--accent2:#a78bfa;--accent-soft:#20294a;--glow:rgba(109,124,255,.22);--nav:rgba(11,16,24,.72);
+  --shadow:0 14px 40px -16px rgba(0,0,0,.7)
+}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:860px;margin:0 auto;padding:56px 16px 40px}
-header{display:flex;align-items:center;gap:16px;margin-bottom:28px}
-header img{width:64px;height:64px}
-h1{margin:0;font-size:32px;letter-spacing:-.8px}
-h1 span{color:var(--accent)}
-.sub{margin:4px 0 0;color:var(--muted)}
-.version{display:inline-flex;align-items:center;gap:8px;margin:0 0 22px;padding:6px 12px;border:1px solid var(--border);border-radius:999px;background:var(--panel);color:var(--muted);font-size:13px}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+section{position:relative}
+
+/* ---------- Navegação ---------- */
+.nav{position:fixed;inset:0 0 auto;z-index:20;transition:background .25s,border-color .25s,box-shadow .25s;border-bottom:1px solid transparent}
+.nav.scrolled{background:var(--nav);backdrop-filter:saturate(160%) blur(14px);-webkit-backdrop-filter:saturate(160%) blur(14px);border-color:var(--border)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:18px;letter-spacing:-.3px}
+.brand img{width:30px;height:30px}
+.brand span{color:var(--accent)}
+.menu{display:flex;gap:4px;list-style:none;margin:0;padding:0}
+.menu a{position:relative;display:block;padding:8px 14px;border-radius:999px;text-decoration:none;color:var(--muted);font-size:14px;font-weight:500;transition:color .2s,background .2s}
+.menu a:hover{color:var(--text);background:var(--panel2)}
+.menu a.active{color:var(--accent);background:var(--accent-soft)}
+.burger{display:none;width:40px;height:40px;border:1px solid var(--border);border-radius:10px;background:var(--panel);color:var(--text);cursor:pointer;align-items:center;justify-content:center}
+.burger svg{width:20px;height:20px}
+@media (max-width:680px){
+  .burger{display:inline-flex}
+  .menu{position:absolute;top:64px;left:16px;right:16px;flex-direction:column;padding:8px;background:var(--panel);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);
+    opacity:0;transform:translateY(-8px);pointer-events:none;transition:opacity .2s,transform .2s}
+  .menu.open{opacity:1;transform:none;pointer-events:auto}
+  .menu a{padding:12px 14px;border-radius:10px}
+}
+
+/* ---------- Início ---------- */
+.hero{padding:132px 0 72px;text-align:center;overflow:hidden}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(70px);z-index:-1;pointer-events:none}
+.hero::before{width:520px;height:520px;top:-140px;left:50%;margin-left:-420px;background:var(--glow);animation:float 12s ease-in-out infinite}
+.hero::after{width:420px;height:420px;top:-60px;left:50%;margin-left:40px;background:rgba(139,92,246,.16);animation:float 14s ease-in-out infinite reverse}
+@keyframes float{50%{transform:translate(30px,24px) scale(1.06)}}
+.hero-logo{width:92px;height:92px;margin:0 auto 22px;display:block;filter:drop-shadow(0 12px 28px var(--glow))}
+.hero h1{margin:0;font-size:clamp(38px,7vw,64px);line-height:1.05;letter-spacing:-2px}
+.grad{background:linear-gradient(100deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{max-width:620px;margin:18px auto 0;color:var(--muted);font-size:clamp(16px,2.2vw,19px)}
+.version{display:inline-flex;align-items:center;gap:8px;margin:0 0 26px;padding:6px 14px;border:1px solid var(--border);border-radius:999px;background:var(--panel);color:var(--muted);font-size:13px}
+.version::before{content:"";width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.18)}
 .version b{color:var(--text)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-.card{border:1px solid var(--border);border-radius:14px;background:var(--panel);padding:18px;display:flex;flex-direction:column;gap:10px}
-.card.recommended{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.card h2{margin:0;font-size:17px;display:flex;align-items:center;gap:8px}
-.card .tag{font-size:11px;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:999px}
-.card ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
-.card a{display:flex;justify-content:space-between;gap:10px;padding:9px 12px;border-radius:9px;background:var(--panel2);border:1px solid var(--border);color:var(--text);text-decoration:none;font-size:13px;overflow-wrap:anywhere}
-.card a:hover{border-color:var(--accent)}
-.card a small{color:var(--muted);white-space:nowrap}
+.cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:32px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border-radius:12px;font-weight:600;font-size:15px;text-decoration:none;border:1px solid var(--border);background:var(--panel);color:var(--text);transition:transform .2s,box-shadow .2s,border-color .2s}
+.btn:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:var(--shadow)}
+.btn svg{width:18px;height:18px;flex:none}
+.btn.primary{background:linear-gradient(100deg,var(--accent),var(--accent2));border-color:transparent;color:#fff;box-shadow:0 10px 28px -10px var(--accent)}
+.btn.primary:hover{box-shadow:0 16px 36px -12px var(--accent)}
+.btn small{font-weight:500;opacity:.8}
+
+/* ---------- Títulos de seção ---------- */
+.block{padding:80px 0}
+.block.alt{background:var(--bg2);border-block:1px solid var(--border)}
+.eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.block h2{margin:0;font-size:clamp(28px,4.4vw,38px);letter-spacing:-1px;line-height:1.15}
+.block .intro{max-width:640px;color:var(--muted);margin:12px 0 0;font-size:16px}
+.head{margin-bottom:36px}
+.head.center{text-align:center}
+.head.center .intro{margin-inline:auto}
+
+/* ---------- Downloads ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px}
+.card{position:relative;border:1px solid var(--border);border-radius:18px;background:var(--panel);padding:22px;display:flex;flex-direction:column;gap:14px;transition:transform .25s,box-shadow .25s,border-color .25s}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.card.recommended{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.card-head{display:flex;align-items:center;gap:12px}
+.os-ico{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);flex:none}
+.os-ico svg{width:22px;height:22px}
+.card h3{margin:0;font-size:18px;display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.tag{font-size:11px;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:2px 9px;border-radius:999px}
+.card ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.dl{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;background:var(--panel2);border:1px solid var(--border);text-decoration:none;font-size:14px;transition:border-color .2s,transform .2s,background .2s}
+.dl:hover{border-color:var(--accent);transform:translateX(3px)}
+.dl .name{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+.dl .arch{flex:none;white-space:nowrap;font-size:11px;font-weight:600;color:var(--muted);border:1px solid var(--border);background:var(--panel);padding:2px 8px;border-radius:999px}
+.dl .get{flex:none;width:18px;height:18px;color:var(--muted);transition:color .2s,transform .2s}
+.dl:hover .get{color:var(--accent);transform:translateY(2px)}
 .empty{color:var(--muted);font-size:13px;margin:0}
-.note{margin-top:28px;padding:14px 16px;border-radius:12px;background:var(--panel);border:1px solid var(--border);color:var(--muted);font-size:13px}
+.note{margin-top:24px;display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border-radius:14px;background:var(--panel);border:1px solid var(--border);color:var(--muted);font-size:14px}
+.note svg{flex:none;width:20px;height:20px;color:var(--accent);margin-top:2px}
 .note b{color:var(--text)}
-footer{margin-top:28px;color:var(--muted);font-size:12px;text-align:center}
+
+/* ---------- Sobre ---------- */
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.feat{padding:22px;border-radius:16px;background:var(--panel);border:1px solid var(--border);transition:transform .25s,border-color .25s,box-shadow .25s}
+.feat:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:var(--shadow)}
+.feat .ico{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);margin-bottom:14px}
+.feat .ico svg{width:20px;height:20px}
+.feat h3{margin:0 0 6px;font-size:16px}
+.feat p{margin:0;color:var(--muted);font-size:14px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:48px;counter-reset:s}
+.step{position:relative;padding:20px 20px 20px 64px;border-radius:16px;border:1px dashed var(--border)}
+.step::before{counter-increment:s;content:counter(s);position:absolute;left:18px;top:18px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+.step b{display:block;margin-bottom:2px}
+.step span{color:var(--muted);font-size:14px}
+
+/* ---------- Contato ---------- */
+.contact{display:grid;grid-template-columns:1.2fr 1fr;gap:20px;align-items:stretch}
+@media (max-width:760px){.contact{grid-template-columns:1fr}}
+.contact-card{padding:28px;border-radius:18px;background:var(--panel);border:1px solid var(--border)}
+.contact-card h3{margin:0 0 8px;font-size:20px}
+.contact-card p{margin:0 0 20px;color:var(--muted)}
+.contact-list{display:flex;flex-direction:column;gap:10px}
+.contact-item{display:flex;align-items:center;gap:14px;padding:14px;border-radius:12px;border:1px solid var(--border);background:var(--panel2);text-decoration:none;transition:border-color .2s,transform .2s}
+.contact-item:hover{border-color:var(--accent);transform:translateX(3px)}
+.contact-item .ico{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);flex:none}
+.contact-item .ico svg{width:18px;height:18px}
+.contact-item small{display:block;color:var(--muted);font-size:12px}
+.contact-item b{font-weight:600;font-size:14px;overflow-wrap:anywhere}
+.contact-card.highlight{background:linear-gradient(140deg,var(--accent),var(--accent2));border-color:transparent;color:#fff}
+.contact-card.highlight p{color:rgba(255,255,255,.85)}
+.contact-card.highlight .btn{background:#fff;color:#1f2550;border-color:transparent}
+
+footer{padding:32px 0;color:var(--muted);font-size:13px;text-align:center;border-top:1px solid var(--border)}
+
+/* ---------- Efeito de surgimento ---------- */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.visible{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+
+/* ---------- Botão voltar ao topo ---------- */
+.to-top{position:fixed;right:20px;bottom:20px;z-index:30;width:48px;height:48px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;color:#fff;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 12px 28px -8px var(--accent);
+  opacity:0;transform:translateY(16px) scale(.85);pointer-events:none;transition:opacity .3s,transform .3s}
+.to-top.show{opacity:1;transform:none;pointer-events:auto}
+.to-top:hover{transform:translateY(-3px)}
+.to-top svg{width:22px;height:22px}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+}
 </style>
 </head>
 <body>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#inicio"><img src="icon.png" alt="" onerror="this.remove()">Li<span>Serv</span>Adm</a>
+    <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <ul class="menu" id="menu">
+      <li><a href="#inicio" class="active">Início</a></li>
+      <li><a href="#downloads">Downloads</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+  </div>
+</nav>
+
 <main>
-  <header>
-    <img src="icon.png" alt="" onerror="this.remove()">
-    <div><h1>Li<span>Serv</span>Adm</h1><p class="sub">Administração de servidores por SSH, Docker, Portainer e bancos de dados.</p></div>
-  </header>
-  <p class="version" id="version">Carregando a versão mais recente…</p>
-  <div class="grid" id="downloads"></div>
-  <div class="note"><b>Já tem o app instalado?</b> Ele avisa sozinho quando há uma versão nova e se atualiza pelo botão <b>Atualizar</b>. Esta página serve para a primeira instalação ou para baixar manualmente.</div>
-  <footer>© 2026 Lianna Atelier Criativo</footer>
+  <!-- Início -->
+  <section class="hero" id="inicio">
+    <div class="wrap">
+      <img class="hero-logo reveal" src="icon.png" alt="" onerror="this.remove()">
+      <p class="version reveal d1" id="version">Carregando a versão mais recente…</p>
+      <h1 class="reveal d2">Seus servidores,<br><span class="grad">num só lugar.</span></h1>
+      <p class="lead reveal d3">Administre servidores por SSH, containers Docker e Portainer, bancos de dados e arquivos — com um assistente de IA que opera o app por você.</p>
+      <div class="cta reveal d4">
+        <a class="btn primary" id="cta-main" href="#downloads">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+          <span id="cta-label">Baixar agora</span>
+        </a>
+        <a class="btn" href="#sobre">Conhecer o projeto</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Downloads -->
+  <section class="block alt" id="downloads">
+    <div class="wrap">
+      <div class="head center reveal">
+        <span class="eyebrow">Downloads</span>
+        <h2>Escolha o seu sistema</h2>
+        <p class="intro">Instaladores para Windows, macOS e Linux. O sistema que você está usando aparece em destaque.</p>
+      </div>
+      <div class="grid" id="downloads-grid"></div>
+      <div class="note reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>
+        <div><b>Já tem o app instalado?</b> Ele avisa sozinho quando há uma versão nova e se atualiza pelo botão <b>Atualizar</b>. Esta página serve para a primeira instalação ou para baixar manualmente.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sobre -->
+  <section class="block" id="sobre">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">Sobre o projeto</span>
+        <h2>Tudo o que você precisa para cuidar dos seus servidores</h2>
+        <p class="intro">O LiServAdm é um aplicativo desktop que reúne, numa só janela, as ferramentas do dia a dia de quem administra servidores. As credenciais ficam protegidas no seu computador pela criptografia do próprio sistema operacional.</p>
+      </div>
+      <div class="features">
+        <div class="feat reveal">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M13 15h4"/></svg></div>
+          <h3>Terminal SSH</h3><p>Conecte por senha ou chave privada e execute comandos nos servidores cadastrados.</p>
+        </div>
+        <div class="feat reveal d1">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg></div>
+          <h3>Métricas</h3><p>Acompanhe CPU, memória, disco e os processos que mais consomem recursos.</p>
+        </div>
+        <div class="feat reveal d2">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg></div>
+          <h3>Docker e Portainer</h3><p>Veja endpoints, stacks e containers pela API do Portainer.</p>
+        </div>
+        <div class="feat reveal d3">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div>
+          <h3>Bancos de dados</h3><p>PostgreSQL e MySQL/MariaDB, direto ou por túnel SSH: navegue, edite linhas e rode scripts SQL.</p>
+        </div>
+        <div class="feat reveal">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+          <h3>Arquivos (SFTP)</h3><p>Navegue, envie e baixe arquivos dos servidores sem sair do app.</p>
+        </div>
+        <div class="feat reveal d1">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 17v4M17 19h4"/></svg></div>
+          <h3>Assistente de IA</h3><p>Peça em linguagem natural: o assistente opera servidores, bancos, Portainer, VPN e anotações, com ou sem confirmação.</p>
+        </div>
+        <div class="feat reveal d2">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.4 8.3 8 9 4.6-.7 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+          <h3>VPN e segurança</h3><p>VPN WireGuard integrada, tela de bloqueio e segredos guardados com a criptografia do sistema.</p>
+        </div>
+        <div class="feat reveal d3">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg></div>
+          <h3>Anotações</h3><p>Organize procedimentos e informações em seções, sempre à mão.</p>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step reveal"><b>Baixe e instale</b><span>Escolha o instalador do seu sistema na seção de downloads.</span></div>
+        <div class="step reveal d1"><b>Cadastre um servidor</b><span>Informe host, porta, usuário e senha ou chave e clique em Testar SSH.</span></div>
+        <div class="step reveal d2"><b>Administre</b><span>Terminal, métricas, containers, bancos e arquivos, tudo na mesma janela.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contato -->
+  <section class="block alt" id="contato">
+    <div class="wrap">
+      <div class="head center reveal">
+        <span class="eyebrow">Contato</span>
+        <h2>Fale com a gente</h2>
+        <p class="intro">Dúvidas, sugestões ou encontrou algum problema? Mande uma mensagem.</p>
+      </div>
+      <div class="contact">
+        <div class="contact-card reveal">
+          <h3>Canais</h3>
+          <p>Respondemos o mais rápido possível.</p>
+          <div class="contact-list">
+            <a class="contact-item" href="mailto:leonardo_b22_@hotmail.com?subject=LiServAdm">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+              <span><small>E-mail</small><b>leonardo_b22_@hotmail.com</b></span>
+            </a>
+            <div class="contact-item">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+              <span><small>Desenvolvido por</small><b>Lianna Atelier Criativo</b></span>
+            </div>
+          </div>
+        </div>
+        <div class="contact-card highlight reveal d1">
+          <h3>Pronto para começar?</h3>
+          <p>Baixe a versão mais recente e cadastre seu primeiro servidor em poucos minutos.</p>
+          <a class="btn" href="#downloads">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+            Ir para os downloads
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
+
+<footer><div class="wrap">© 2026 Lianna Atelier Criativo · LiServAdm</div></footer>
+
+<button class="to-top" id="to-top" aria-label="Voltar ao início">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5m0 0-6 6m6-6 6 6"/></svg>
+</button>
+
 <script>
+/* ---------- Navegação, surgimento e voltar ao topo ---------- */
 (function () {
+  var nav = document.getElementById("nav"), toTop = document.getElementById("to-top");
+  var menu = document.getElementById("menu"), burger = document.getElementById("burger");
+  var links = [].slice.call(menu.querySelectorAll("a"));
+
+  function onScroll() {
+    var y = window.scrollY;
+    nav.classList.toggle("scrolled", y > 10);
+    toTop.classList.toggle("show", y > window.innerHeight * 0.6);
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  toTop.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    history.replaceState(null, "", "#inicio");
+  });
+
+  burger.addEventListener("click", function () {
+    var open = menu.classList.toggle("open");
+    burger.setAttribute("aria-expanded", open);
+  });
+  links.forEach(function (a) { a.addEventListener("click", function () { menu.classList.remove("open"); burger.setAttribute("aria-expanded", "false"); }); });
+  document.addEventListener("click", function (e) { if (!nav.contains(e.target)) menu.classList.remove("open"); });
+
+  if (!("IntersectionObserver" in window)) {
+    document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("visible"); });
+    return;
+  }
+  // Elementos .reveal surgem ao entrar na tela (inclusive os cards criados depois, via observeReveal).
+  var revealer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("visible"); revealer.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+  window.observeReveal = function (el) { revealer.observe(el); };
+  document.querySelectorAll(".reveal").forEach(window.observeReveal);
+
+  // Destaca no menu a seção que está na tela.
+  var spy = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      links.forEach(function (a) { a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id); });
+    });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  ["inicio", "downloads", "sobre", "contato"].forEach(function (id) { spy.observe(document.getElementById(id)); });
+})();
+
+/* ---------- Lista de downloads ---------- */
+(function () {
+  var ICONS = {
+    win: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5 10 4.5v7H3zM11 4.3 21 3v8.5H11zM3 12.5h7v7l-7-1zM11 12.5h10V21l-10-1.4z"/></svg>',
+    mac: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.5 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.3.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.8-1.1-2.8-4.2zM14 5.1c.7-.8 1.2-2 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4z"/></svg>',
+    linux: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M13 15h4"/></svg>'
+  };
+  var DL_ICON = '<svg class="get" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>';
   var groups = [
     { id: "win", title: "Windows", test: /\.(exe|appx)$/i, kinds: { exe: "Instalador (.exe)", appx: "Pacote da Store (.appx)" } },
-    { id: "mac", title: "macOS", test: /mac.*\.(dmg|zip)$|\.(dmg)$/i, kinds: { dmg: "Imagem de disco (.dmg)", zip: "Arquivo .zip" } },
-    { id: "linux", title: "Linux", test: /\.(AppImage|deb)$/i, kinds: { appimage: "AppImage", deb: "Pacote .deb" } }
+    { id: "mac", title: "macOS", test: /mac.*\.(dmg|zip)$|\.(dmg)$/i, kinds: { dmg: "Imagem de disco (.dmg)", zip: "Arquivo compactado (.zip)" } },
+    { id: "linux", title: "Linux", test: /\.(AppImage|deb)$/i, kinds: { appimage: "AppImage", deb: "Pacote Debian (.deb)" } }
   ];
   var ua = navigator.userAgent, mine = /Windows/i.test(ua) ? "win" : /Mac/i.test(ua) ? "mac" : /Linux|X11/i.test(ua) ? "linux" : "";
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
-  function arch(name) { return /arm64|aarch64/i.test(name) ? "ARM64 (Apple Silicon / ARM)" : /x64|amd64|x86_64/i.test(name) ? "x64 (Intel/AMD)" : ""; }
+  // Rótulo curto da arquitetura (cabe ao lado do nome sem quebrar a linha); o nome completo fica no title.
+  function arch(name, os) {
+    if (/arm64|aarch64/i.test(name)) return os === "mac" ? ["Apple Silicon", "ARM64 (Apple Silicon M1/M2/M3/M4)"] : ["ARM64", "ARM64 (aarch64)"];
+    if (/x64|amd64|x86_64/i.test(name)) return os === "mac" ? ["Intel", "x64 (Mac com processador Intel)"] : ["x64", "x64 (Intel/AMD)"];
+    return ["", ""];
+  }
   function fromYml(text) {
     var v = (text.match(/^version:\s*['"]?([^'"\s]+)/m) || [])[1], files = [], re = /^\s*-\s*url:\s*['"]?([^'"\s]+)/gm, m;
     while ((m = re.exec(text))) files.push(m[1]);
@@ -86,23 +395,40 @@ footer{margin-top:28px;color:var(--muted);font-size:12px;text-align:center}
     vEl.textContent = "";
     if (data.version) { vEl.append("Versão mais recente: "); vEl.append(el("b", "", data.version)); }
     else vEl.textContent = files.length ? "Downloads disponíveis" : "Nenhuma versão publicada ainda.";
-    var box = document.getElementById("downloads");
-    groups.sort(function (a, b) { return (b.id === mine) - (a.id === mine); }).forEach(function (g) {
-      var mineFiles = files.filter(function (f) { return g.test.test(f.name); });
-      var card = el("section", "card" + (g.id === mine && mineFiles.length ? " recommended" : ""));
-      var h = el("h2", "", g.title); if (g.id === mine) h.append(el("span", "tag", "seu sistema")); card.append(h);
-      if (!mineFiles.length) card.append(el("p", "empty", "Sem instalador publicado para este sistema."));
+    var box = document.getElementById("downloads-grid"), primary = null;
+    groups.sort(function (a, b) { return (b.id === mine) - (a.id === mine); }).forEach(function (g, i) {
+      // Ordena por tipo de pacote e depois por arquitetura (x64 antes de ARM64), para ficarem agrupados.
+      var list = files.filter(function (f) { return g.test.test(f.name); }).sort(function (a, b) {
+        var ea = a.name.split(".").pop().toLowerCase(), eb = b.name.split(".").pop().toLowerCase();
+        return ea === eb ? (/arm64|aarch64/i.test(a.name) - /arm64|aarch64/i.test(b.name)) : (ea < eb ? -1 : 1);
+      });
+      var card = el("section", "card reveal d" + i + (g.id === mine && list.length ? " recommended" : ""));
+      var head = el("div", "card-head"), ico = el("div", "os-ico"); ico.innerHTML = ICONS[g.id];
+      var h = el("h3", "", g.title); if (g.id === mine) h.append(el("span", "tag", "seu sistema"));
+      head.append(ico, h); card.append(head);
+      if (!list.length) card.append(el("p", "empty", "Sem instalador publicado para este sistema."));
       else {
         var ul = el("ul");
-        mineFiles.forEach(function (f) {
-          var ext = f.name.split(".").pop().toLowerCase(), a = el("a"); a.href = /^https?:/.test(f.url) ? f.url : encodeURI(f.url); a.download = "";
-          a.append(el("span", "", g.kinds[ext] || f.name)); a.append(el("small", "", arch(f.name)));
+        list.forEach(function (f) {
+          var ext = f.name.split(".").pop().toLowerCase(), a = el("a", "dl"), ar = arch(f.name, g.id);
+          a.href = /^https?:/.test(f.url) ? f.url : encodeURI(f.url); a.download = ""; a.title = f.name + (ar[1] ? " — " + ar[1] : "");
+          a.append(el("span", "name", g.kinds[ext] || f.name));
+          if (ar[0]) a.append(el("span", "arch", ar[0]));
+          a.insertAdjacentHTML("beforeend", DL_ICON);
           var li = el("li"); li.append(a); ul.append(li);
         });
         card.append(ul);
+        if (g.id === mine && !primary) primary = { title: g.title, file: list[0], href: ul.querySelector("a").href };
       }
       box.append(card);
+      if (window.observeReveal) window.observeReveal(card); else card.classList.add("visible");
     });
+    // Botão principal do topo baixa direto o primeiro instalador do sistema detectado.
+    if (primary) {
+      var cta = document.getElementById("cta-main");
+      cta.href = primary.href; cta.setAttribute("download", ""); cta.title = primary.file.name;
+      document.getElementById("cta-label").textContent = "Baixar para " + primary.title;
+    }
   }
 })();
 </script>
