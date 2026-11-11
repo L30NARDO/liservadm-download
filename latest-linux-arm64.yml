@@ -1,12 +1,12 @@
-version: 0.1.6
+version: 0.1.10
 files:
-  - url: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.6/LiServAdm-0.1.6-linux-arm64.AppImage
-    sha512: mYOti7fkkqpjVnfSD5XNoxSBrcjK2Zmn/dLQi2FwkEjelEEDSL/YsW0Waae28OQRujsSSvEZ6QFApd9CTF86QQ==
-    size: 122580592
-    blockMapSize: 129468
-  - url: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.6/LiServAdm-0.1.6-linux-arm64.deb
-    sha512: QvB02+XkIPALXp2CbRB7lLWTe6eNG0+pWF0Db2jeA0cMSjhYzICve8q3cc2knb7V2v4+WL9w/8qVfOYf9BfHUg==
-    size: 93951548
-path: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.6/LiServAdm-0.1.6-linux-arm64.AppImage
-sha512: mYOti7fkkqpjVnfSD5XNoxSBrcjK2Zmn/dLQi2FwkEjelEEDSL/YsW0Waae28OQRujsSSvEZ6QFApd9CTF86QQ==
-releaseDate: '2026-11-05T11:22:33.568Z'
+  - url: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.10/LiServAdm-0.1.10-linux-arm64.AppImage
+    sha512: BuVcBPYE2k6a5VuvRUkSmBVzurv8AaiXfqmD9GHe19m5SsNNpxaAtt1QE+c2g4gJ9GLiyZvAjaCalqWPPsZywQ==
+    size: 124794386
+    blockMapSize: 131422
+  - url: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.10/LiServAdm-0.1.10-linux-arm64.deb
+    sha512: NDCVuw9uIytQf6BYUl5GUFNwbmN+4cWrQw+6dgjHFhoAOTxzDY1jJ6m5gmyncJIvKH6F2qebPCdS6Q3afUBrRQ==
+    size: 79311438
+path: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.10/LiServAdm-0.1.10-linux-arm64.AppImage
+sha512: BuVcBPYE2k6a5VuvRUkSmBVzurv8AaiXfqmD9GHe19m5SsNNpxaAtt1QE+c2g4gJ9GLiyZvAjaCalqWPPsZywQ==
+releaseDate: '2026-11-11T14:54:19.402Z'

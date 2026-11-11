@@ -1,17 +1,17 @@
-version: 0.1.6
+version: 0.1.10
 files:
-  - url: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.6/LiServAdm-0.1.6-mac-x64.zip
-    sha512: LSKs2SbmOyRcQHSiG+e16H3n6H2zKw5OOffqjfwFCuNbQ/UxVyqQR9zqDma2kXx0bmaZ5ybJxwW78B8YDtNLvA==
-    size: 113987466
-  - url: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.6/LiServAdm-0.1.6-mac-arm64.zip
-    sha512: 1f2iKlJJknqZ8aSthm5TgWL7Vs2SQ9TWg9NZVRNHVDkaYXQH1CxZUQmvt3J7Inl4Vum/f2dMInHIPA8+R4yzqQ==
-    size: 107106105
-  - url: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.6/LiServAdm-0.1.6-mac-x64.dmg
-    sha512: VDqPs6CIdbbfM78fFhOBIhWjCzLIwWbNpmMqMHgKtapRaO1345lByUOLfK/A7Mp03U6e5QzAa/Wyo7boBzrawg==
-    size: 118138926
-  - url: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.6/LiServAdm-0.1.6-mac-arm64.dmg
-    sha512: xvrvlroCitfSFncs930YAbfz8PQHNuqo5D+5yraZZqk5Z2Wt09qVWTAcsa6biN6IV0D7GVbXmsVvNmKMHd9uJQ==
-    size: 111222663
-path: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.6/LiServAdm-0.1.6-mac-x64.zip
-sha512: LSKs2SbmOyRcQHSiG+e16H3n6H2zKw5OOffqjfwFCuNbQ/UxVyqQR9zqDma2kXx0bmaZ5ybJxwW78B8YDtNLvA==
-releaseDate: '2026-11-05T11:22:09.124Z'
+  - url: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.10/LiServAdm-0.1.10-mac-arm64.zip
+    sha512: qFdxVFXk0Nb4CJ6VrY3T0LT/NGupkG5tQYx/cQg0e8FZS0h8VSBp9MXd9NPZbeJNRUAMhd8QLWRxrL4Sadbwyw==
+    size: 109141158
+  - url: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.10/LiServAdm-0.1.10-mac-x64.zip
+    sha512: W3wftUJfBHtys1lIMcqhBwoT3fg2YyehNMAdjjSetjlut/emHdmmN6qS5ZrbMvuKpqVvLF008MKHU3Lff6dMrg==
+    size: 116022523
+  - url: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.10/LiServAdm-0.1.10-mac-x64.dmg
+    sha512: u9HGHSegOIoqNjOTPSc3CZsUm0TRZV5EQHLYy0gp6mXVuaTHjYDsP1mW/YETZVxuogMWXTch/4UBBNeQjC0xfg==
+    size: 120135778
+  - url: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.10/LiServAdm-0.1.10-mac-arm64.dmg
+    sha512: MFuwhcxbcOSjaryWWt3beEpaH4TPprZ+c1hMDZa2PwQ/ux3tiJu+G9yR19mqKJpPc2etHNShgZ3DOFbjSUxOOg==
+    size: 113287079
+path: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.10/LiServAdm-0.1.10-mac-arm64.zip
+sha512: qFdxVFXk0Nb4CJ6VrY3T0LT/NGupkG5tQYx/cQg0e8FZS0h8VSBp9MXd9NPZbeJNRUAMhd8QLWRxrL4Sadbwyw==
+releaseDate: '2026-11-11T14:52:49.091Z'

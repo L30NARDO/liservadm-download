@@ -1,8 +1,8 @@
-version: 0.1.6
+version: 0.1.10
 files:
-  - url: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.6/LiServAdm-0.1.6-win-x64.exe
-    sha512: UvrfY8Q5ysZa6ekOd+S8sKWAngRc3T098M0ZgpJlKOFLNEJVG6RzvrNLD47Evf1awEM4TfSUcfN6Cv58oH2BpQ==
-    size: 90801430
-path: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.6/LiServAdm-0.1.6-win-x64.exe
-sha512: UvrfY8Q5ysZa6ekOd+S8sKWAngRc3T098M0ZgpJlKOFLNEJVG6RzvrNLD47Evf1awEM4TfSUcfN6Cv58oH2BpQ==
-releaseDate: '2026-11-05T11:23:58.337Z'
+  - url: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.10/LiServAdm-0.1.10-win-x64.exe
+    sha512: 7sS2QKsCx2h3O7SHbyG6EyHJtlVan7x6MEMeUb0PTBfGiF5E6cQxaeQzVUa7m18tqhvmPPdUGVnPqLR+BB2jHQ==
+    size: 92187801
+path: https://github.com/L30NARDO/liservadm-download/releases/download/v0.1.10/LiServAdm-0.1.10-win-x64.exe
+sha512: 7sS2QKsCx2h3O7SHbyG6EyHJtlVan7x6MEMeUb0PTBfGiF5E6cQxaeQzVUa7m18tqhvmPPdUGVnPqLR+BB2jHQ==
+releaseDate: '2026-11-11T14:52:52.119Z'
